@@ -1,0 +1,2 @@
+# How_to_structure_chat_application_using_Firebase_Realtime_Database_to_incorporate_user_data
+How to structure chat application using Firebase Realtime Database to incorporate user data?
