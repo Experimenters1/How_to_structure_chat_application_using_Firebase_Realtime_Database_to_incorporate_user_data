@@ -20,7 +20,7 @@ class CreateNewMessageViewModel: ObservableObject {
     
     private func fetchAllUsers() {
         FirebaseManager.shared.firestore.collection("users")
-            .getDocuments {  documentsSnapshot ,error in
+            .getDocuments { documentsSnapshot, error in
                 if let error = error {
                     self.errorMessage = "Failed to fetch users: \(error)"
                     print("Failed to fetch users: \(error)")
@@ -35,11 +35,8 @@ class CreateNewMessageViewModel: ObservableObject {
                     }
                     
                 })
-                
-//                self.errorMessage = "hello huy"
             }
     }
-    
 }
 
 struct CreateNewMessageView: View {

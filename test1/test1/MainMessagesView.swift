@@ -91,7 +91,7 @@ struct MainMessagesView: View {
                 messagesView
                 
                 NavigationLink("", isActive: $shouldNavigateToChatLogView){
-                    ChaLogView(chatUser: self.chatUser)
+                    ChatLogView(chatUser: self.chatUser)
                 }
             }
             .overlay(
@@ -99,6 +99,8 @@ struct MainMessagesView: View {
             .navigationBarHidden(true)
         }
     }
+    
+    
     
     private var customNavBar: some View {
             HStack(spacing: 16) {
@@ -236,19 +238,19 @@ struct MainMessagesView: View {
     @State var chatUser: ChatUser?
 }
 
-struct ChaLogView: View {
-    
-    let chatUser: ChatUser?
-    
-    var body: some View {
-        ScrollView {
-            ForEach(0..<10) { num in
-                Text("Fake Message for now")
-            }
-        }.navigationTitle(chatUser?.email ?? "")
-            .navigationBarTitleDisplayMode(.inline)
-    }
-}
+//struct ChaLogView: View {
+//    
+//    let chatUser: ChatUser?
+//    
+//    var body: some View {
+//        ScrollView {
+//            ForEach(0..<10) { num in
+//                Text("Fake Message for now")
+//            }
+//        }.navigationTitle(chatUser?.email ?? "")
+//            .navigationBarTitleDisplayMode(.inline)
+//    }
+//}
 
 #Preview {
     MainMessagesView()
