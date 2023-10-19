@@ -12,6 +12,8 @@ struct FirebaseConstants {
     static let fromId = "fromId"
     static let toId = "toId"
     static let text = "text"
+    static let profileImageUrl = "profileImageUrl"
+    
 }
 
 
@@ -28,6 +30,7 @@ struct ChatMessage: Identifiable {
         self.fromId = data[FirebaseConstants.fromId] as? String ?? ""
         self.toId = data[FirebaseConstants.toId] as? String ?? ""
         self.text = data[FirebaseConstants.text] as? String ?? ""
+        
     }
 }
 
@@ -97,6 +100,9 @@ class ChatLogViewModel: ObservableObject {
             }
             
             print("Successfully saved current user sending message")
+            
+            self.presistRecentMesage()
+            
             self.chatText = ""
             self.count += 1
         }
@@ -115,6 +121,41 @@ class ChatLogViewModel: ObservableObject {
             
             print("Recipient saved message as well")
         }
+    }
+    
+    
+    private func  presistRecentMesage() {
+        
+        guard let chatUser = chatUser else { return }
+        
+        guard let uid = FirebaseManager.shared.auth.currentUser?.uid else{
+            return
+        }
+        
+        guard let toId = self.chatUser?.uid else {return}
+        
+       let document = FirebaseManager.shared.firestore.collection("recent_messages")
+            .document(uid)
+            .collection("messages")
+            .document(toId)
+         
+        let data = ["timestamp": Timestamp(),
+                    FirebaseConstants.text: self.chatText,
+                    FirebaseConstants.fromId:uid,
+                    FirebaseConstants.toId: toId,
+                    FirebaseConstants.profileImageUrl: chatUser.profileImageUrl
+        
+        
+        ] as [String : Any]
+        
+        document.setData(data ){ error in
+            if let error = error{
+                self.errorMessage = "Failed to listen for recent messages: \(error)"
+                print("Failed to listen for recent messages: \(error)")
+                return
+            }
+        }
+    
     }
     
     @Published var count = 0
